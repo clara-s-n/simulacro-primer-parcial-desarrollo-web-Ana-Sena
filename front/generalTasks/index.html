@@ -1,0 +1,31 @@
+<!-- cards.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tareas generales</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<header>
+  <h1>Primer parcial</h1>
+  <button id="logout"> Logout </button>
+</header>
+<main>
+  <section id="cards">
+    <h2>Lista de tareas</h2>
+    <div id="card-list" class="card-list">
+      <div class="card add-task-card" id="add-task-card">
+        <h1>Agregar tarea</h1>
+        <button id="addTask>" aria-label="Agregar nueva tarea" title="Agregar nueva tarea">
+          <i class="fas fa-user-plus" aria-hidden="true"></i>
+          <span class="sr-only">Agregar tarea</span>
+        </button>
+      </div>
+    </div>
+  </section>
+</main>
+<script type="module" src="../scripts/generalTasks.js"></script>
+</body>
+</html>

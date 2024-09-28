@@ -1,5 +1,5 @@
 // auth.js
-const API_URL = 'https://localhost/back';
+const API_URL = 'http://localhost/back';
 
 export const auth = {
     id: localStorage.getItem('id'),
@@ -14,12 +14,13 @@ export const auth = {
         }
     })(),
 
-    async login(email, password) {
+    async login(username, email, password) {
         try {
-            const response = await fetch(`${API_URL}/auth/login`, {
+            const contraseña = password;
+            const response = await fetch(`${API_URL}/auth`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password })
+                body: JSON.stringify({ username, email, contraseña })
             });
 
             if (!response.ok) {
@@ -29,12 +30,10 @@ export const auth = {
 
             const data = await response.json();
             this.token = data.token;
-            this.user = data.user;
-            this.id = data.id;
+            this.user = data.usuario;
 
             localStorage.setItem('token', this.token);
             localStorage.setItem('user', JSON.stringify(this.user));
-            localStorage.setItem('id', this.id);
 
             return this.user;
         } catch (error) {
@@ -62,15 +61,17 @@ export const auth = {
         this.logout();
     },
 
-    getUser() {
-        return this.user;
-    },
-
     getId(){
         const payload = this.getPayload();
-        return payload ? payload.id : null;
+        // En el payload recibimos un usuario y dentro del usuario recibimos el campo id_usuario
+        return payload.id_usuario
+        },
 
+    getRole(){
+        const payload = this.getPayload();
+        return payload.is_admin
     },
+
     async verifyToken() {
         if (!this.token) return false;
 

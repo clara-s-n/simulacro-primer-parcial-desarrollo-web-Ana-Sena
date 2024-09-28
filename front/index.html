@@ -1,0 +1,25 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Mi Página Web</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main>
+    <section id="login">
+        <form class="login-form">
+            <h2>Iniciar Sesión</h2>
+            <input type="text" id="username" placeholder="Nombre de usuario" required>
+            <input type="email" id="email" placeholder="Correo electrónico" required>
+            <input type="password" id="password" placeholder="Contraseña" required>
+            <button id="submit-button">Iniciar Sesión</button>
+        </form>
+    </section>
+</main>
+<script type="module" src="scripts/auth.js"></script>
+<script type="module" src="scripts/login.js"></script>
+</body>
+</html>
