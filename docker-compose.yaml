@@ -13,11 +13,16 @@ services:
       - PGUSER=${PGUSER}
       - PGPASSWORD=${PGPASSWORD}
       - PGHOST=${PGHOST}
+
   front:
-    image: nginx:alpine
+    image: front
     container_name: front
+    command: sh -c "npm install && npm start"
+    build:
+      context: ./front
     volumes:
-      - ./front/:/usr/share/nginx/html
+      - ./front/:/front
+
   base:
     image: base
     container_name: base
@@ -38,3 +43,5 @@ services:
     depends_on:
       - front
       - back
+    environment:
+      - FRONTEND_PORT=${FRONTEND_PORT}

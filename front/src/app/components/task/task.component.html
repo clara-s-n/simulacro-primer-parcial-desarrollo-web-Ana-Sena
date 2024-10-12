@@ -1,0 +1,6 @@
+<h1 class="mb-2 mt-0 text-5xl font-medium leading-tight text-primary">Using if else with then</h1>
+@if (this.task()) {
+  <p>Tarea: {{ this.task() | json }}</p>
+} @else {
+  <h1>Task not found</h1>
+}
