@@ -17,7 +17,7 @@ const tareasRoutes: FastifyPluginAsync = async (
       tags: ["tareas"],
       params: IdTareaSchema,
     },
-    onRequest: [fastify.verifyJWT, fastify.verifyAdmin],
+    // onRequest: [fastify.verifyJWT, fastify.verifyAdmin],
     handler: async function (request, reply) {
       const { id_tarea } = request.params as IdTareaType;
       return tareaService.findById(id_tarea);
