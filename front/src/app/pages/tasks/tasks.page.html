@@ -1,3 +1,15 @@
-<p>tasks works!</p>
+<header>
+  <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
+    <div class="container mx-auto">
+      <!-- Ponemos solo el nombre de la sección, en letra grande y en el centro -->
+      <div class="text-center text-2xl font-bold text-gray-800 dark:text-white">Tasks</div>
+    </div>
+  </nav>
+</header>
 <a [routerLink]="['/tasks/2']"> Voy a la tarea 2</a>
-
+<!-- Mostramos todas las tareas, utilizando el componente task.component para cada una-->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  @for (task of this.tasksList; track task) {
+    <app-task [task]="task"></app-task>
+  }
+</div>

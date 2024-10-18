@@ -1,5 +1,5 @@
 @if (this.task()) {
-  <div class="max-w-sm rounded overflow-hidden shadow-lg">
+  <div class="max-w-sm rounded overflow-hidden shadow-lg bg-white">
     <img class="w-full" src="/img.png" alt="Task logo">
     <div class="px-6 py-4">
       <div class="font-bold text-xl mb-2">Id: {{this.task()?.id_tarea}}, Nombre: {{ this.task()?.nombre }}</div>
@@ -7,10 +7,15 @@
       <div class="card-body">
         <p class="card-text">Duración: {{ this.task()?.duracion }}</p>
         <p class="card-text">Creador: {{this.task()?.creador}}</p>
-        <p class="card-text">Usuarios asignados:</p>
-        @for (user of this.task()?.usuarios; track user) {
-          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{ user }}</span>
-        }
+        <p class="card-text">Usuarios asignados:
+          <!-- Si hay usuarios(distintos de una string vacía), ponemos un span con los nombres de usuario, sino no hacemos nada -->
+          @for (user of this.task()?.usuarios; track user) {
+            @if (user !== '') {
+              <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{ user }}</span>
+            }
+          }
+        </p>
+      <button type="button" [routerLink]="['/tasks', this.task()?.id_tarea]" class="w-full text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 shadow-lg shadow-lime-500/50 dark:shadow-lg dark:shadow-lime-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Ver detalles</button>
       </div>
     </div>
   </div>

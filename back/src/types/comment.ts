@@ -19,3 +19,9 @@ export const IdComentarioSchema = Type.Object(
     },
     { examples: [{ id_comentario: 1 }] }
     );
+
+export type IdComentarioType = Static<typeof IdComentarioSchema>;
+
+// El put es un partial de CommentSchema
+export const PutCommentSchema = Type.Partial(CommentSchema);
+// El partial es para que no sea obligatorio enviar todos los campos

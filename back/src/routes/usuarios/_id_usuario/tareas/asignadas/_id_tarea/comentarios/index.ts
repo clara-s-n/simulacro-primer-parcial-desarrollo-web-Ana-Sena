@@ -5,6 +5,7 @@ import { IdTareaSchema } from "../../../../../../../types/tarea.js";
 import { Type } from "@sinclair/typebox";
 import { CommentSchema, CommentType } from "../../../../../../../types/comment.js";
 
+
 const usuariosRoutes: FastifyPluginAsync = async (
     fastify,
     opts): Promise<void> => {

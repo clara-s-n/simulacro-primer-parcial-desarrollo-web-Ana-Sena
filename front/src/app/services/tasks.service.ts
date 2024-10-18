@@ -11,7 +11,7 @@ export class TasksService {
     return data;
   }
 
-  async getTaskById(id: number){
+  async getTaskById(id: number | undefined){
     const response = await fetch(`/back/tareas/${id}`);
     const data = await response.json();
     return data;
