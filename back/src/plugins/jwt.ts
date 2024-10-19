@@ -73,4 +73,21 @@ export default fp<FastifyJWTOptions>(async (fastify) => {
         );
     }
   );
+
+  fastify.decorate(
+      "verifyAssignedOrAdmin",
+        async function (request: FastifyRequest, reply: FastifyReply) {
+            const usuarioToken = request.user;
+            const { id_tarea } = request.params as IdTareaType;
+            const tarea: TareaFullType = await tareaService.findById(id_tarea); //Si no lo encuentra ya tira notFound
+            //Si no es admin, ni es el usuario que la creó.
+            if (
+            usuarioToken.id_usuario !== tarea.id_usuario &&
+            !usuarioToken.is_admin
+            )
+            throw reply.unauthorized(
+                "No estás autorizado a modificar una tarea que no te fue asignada."
+            );
+        }
+    );
 });

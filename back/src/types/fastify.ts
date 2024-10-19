@@ -14,6 +14,7 @@ declare module "fastify" {
     verifySelf: authenticateFunction;
     verifySelfOrAdmin: authenticateFunction;
     verifyTaskCreator: authenticateFunction;
+    verifyAssignedOrAdmin: authenticateFunction;
   }
 }
 
