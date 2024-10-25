@@ -4,6 +4,8 @@ import {TasksPage} from './pages/tasks/tasks.page';
 import {TaskIdPage} from './pages/tasks/components/task-id/task-id.page';
 import {LoginPage} from './pages/auth/login/login.page';
 import {logueadoGuard} from './guards/logueado.guard';
+import {NewTaskPage} from './pages/tasks/components/new-task/new-task.page';
+import {EditTaskPage} from './pages/tasks/components/task-id/edit-task/edit-task.page';
 
 let TasksIdPage;
 export const routes: Routes = [
@@ -19,11 +21,19 @@ export const routes: Routes = [
   {
     path: 'tasks',
     component: TasksPage,
-    canActivate: [logueadoGuard]
+    //canActivate: [logueadoGuard],
+  },
+  {
+    path: 'tasks/new',
+    component: NewTaskPage
   },
   {
     path: 'tasks/:id_tarea',
-    component: TaskIdPage
+    component: TaskIdPage,
+  },
+  {
+    path: 'tasks/:id_tarea/edit',
+    component: EditTaskPage
   },
   {
     path: 'auth/login',

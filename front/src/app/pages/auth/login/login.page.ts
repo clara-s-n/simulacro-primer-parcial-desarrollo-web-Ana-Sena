@@ -2,6 +2,8 @@ import {Component, inject} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ApiRestService} from '../../../services/api-rest.service';
 import {Router} from '@angular/router';
+import {HttpClient} from '@angular/common/http';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -16,15 +18,13 @@ export class LoginPage {
   password: string = '';
   private apiService: ApiRestService = inject(ApiRestService);
   private router: Router = inject(Router);
+  private httpService: HttpClient = inject(HttpClient);
 
   async onSubmit() {
     console.log("username:", this.username);
     console.log("password", this.password);
-    const sent = await this.apiService.post('auth/',
-      JSON.stringify({username: this.username, contraseña: this.password}))
-    console.log(sent)
-    this.apiService.setToken(sent.token)
-    await this.router.navigate(['/tasks'])
+    const response = await firstValueFrom(this.httpService.post('back/auth', {username: this.username, contraseña: this.password}));
+    console.log('response:', response);
   }
 
 }

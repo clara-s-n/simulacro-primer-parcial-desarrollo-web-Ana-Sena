@@ -1,0 +1,59 @@
+<p>form works!</p>
+<!-- Centramos el formulario en la página y al centro -->
+<div class="flex items-center justify-center h-screen">
+  <div class="w-96">
+    <div class="w-full max-w-xs">
+      <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" (ngSubmit)="this.sendForm(myForm)" #myForm="ngForm">
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="Nombre">
+            Nombre
+          </label>
+          <input AppTaken #nombre="ngModel" type="text" name="Nombre" placeholder="Nombre" id="Nombre" [(ngModel)]="this.task.nombre" required minlength="4" maxlength="50" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          @if (nombre.control) {
+            <p>Valid: {{myForm.controls['Nombre'].valid}}</p>
+          }
+          <p>Status: {{nombre.status}}</p>
+          @if (nombre.untouched){
+            <p>Untouched: {{myForm.controls['Nombre'].untouched}}</p>
+          }
+          <!--
+          <p>Touched: {{myForm.controls['Nombre'].touched}}</p>
+
+          <p>Pristine: {{myForm.controls['Nombre'].pristine}}</p>
+          -->
+
+          @if (nombre.dirty){
+            <p>Dirty: {{myForm.controls['Nombre'].dirty}}</p>
+          }
+          @if (nombre.errors){
+            <p>Errors: {{myForm.controls['Nombre'].errors | json}}</p>
+          }
+          @if (nombre.hasError('required')){
+            <p>Required: {{myForm.controls['Nombre'].hasError('required')}}</p>
+          }
+          @if (nombre.hasError('minlength')){
+            <p>Minlength: {{myForm.controls['Nombre'].hasError('minlength')}}</p>
+          }
+          @if (nombre.hasError('maxlength')){
+            <p>Maxlength: {{myForm.controls['Nombre'].hasError('maxlength')}}</p>
+          }
+
+        </div>
+        <div class="mb-6">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="Duracion">
+            Duración
+          </label>
+          <input #duracion="ngModel" type="number" name="Duracion" id="Duracion" placeholder="Duracion" [(ngModel)]="this.task.duracion" required min="10" max="30" class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
+          @if (duracion.control) {
+            <p>Valid: {{myForm.controls['Duracion'].valid}}</p>
+          }
+        </div>
+        <div class="flex items-center justify-between">
+          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+            Crear
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

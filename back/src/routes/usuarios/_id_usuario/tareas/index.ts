@@ -64,7 +64,7 @@ const tareasUsuariosRoutes: FastifyPluginAsync = async (
         },
       },
     },
-    onRequest: [fastify.verifyJWT, fastify.verifySelf],
+    //onRequest: [fastify.verifyJWT, fastify.verifySelf],
     handler: async function (request, reply) {
       const nuevaTarea = request.body as TareaType;
       const { id_usuario } = request.params as IdUsuarioType;

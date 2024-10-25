@@ -6,3 +6,8 @@ export interface Task {
   creador: string;
   usuarios: string[]
 }
+
+export interface TaskPost {
+  nombre: string;
+  duracion: number;
+}

@@ -2,12 +2,14 @@ import {Component, input, OnInit} from '@angular/core';
 import {Task} from '../../../../interfaces/task';
 import {TaskComponent} from '../../../../components/task/task.component';
 import {TasksService} from '../../../../services/tasks.service';
+import {Router, RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-task-id',
   standalone: true,
   imports: [
-    TaskComponent
+    TaskComponent,
+    RouterLink
   ],
   templateUrl: './task-id.page.html',
   styleUrl: './task-id.page.css'
@@ -24,7 +26,13 @@ export class TaskIdPage implements OnInit {
   id_tarea = input<number>()
   // Buscar la tarea por id
   taskService : TasksService = new TasksService();
+  private router: Router = new Router();
 
   selectedTask: Task | undefined;
 
+
+  editTask() {
+    console.log('Edit task');
+    this.router.navigate(['tasks', this.selectedTask?.id_tarea, 'edit']);
+  }
 }
