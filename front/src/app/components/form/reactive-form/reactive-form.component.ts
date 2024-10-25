@@ -1,6 +1,6 @@
 import {Component, inject, input, output} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {CommonModule, JsonPipe} from '@angular/common';
+import {CommonModule, JsonPipe, NgForOf} from '@angular/common';
 import {TakenDirective} from '../../../directive/taken.directive';
 import {Task, TaskPost} from '../../../interfaces/task';
 import {HttpClient} from '@angular/common/http';
@@ -14,6 +14,7 @@ import {TasksService} from '../../../services/tasks.service';
     JsonPipe,
     ReactiveFormsModule,
     TakenDirective,
+    NgForOf,
   ],
   templateUrl: './reactive-form.component.html',
   styleUrl: './reactive-form.component.css'
@@ -21,12 +22,24 @@ import {TasksService} from '../../../services/tasks.service';
 export class ReactiveFormComponent {
   async ngOnInit() {
     await this.loadTask();
+    console.log('Task:', this.task);
   }
 
-  id_tarea = input<number>()
+  // Sacamos el id de la tarea de la URL
+  private id_tarea(): number {
+    // Obtener la URL
+    const url = this.router.url;
+    // La URL tiene el formato /tasks/:id/edit
+    // Dividir la URL por /
+    const url_parts = url.split('/');
+    // Obtener el id de la tarea
+    return parseInt(url_parts[2]);
+  }
+
   protected task? : Task;
   private tasksService = inject(TasksService);
   private router = inject(Router);
+  private http = inject(HttpClient);
 
   async saveTask(task: Task){
     const data = await this.tasksService.updateTask(task);
@@ -40,14 +53,17 @@ export class ReactiveFormComponent {
 
   updateTask: FormGroup = new FormGroup({
     nombre: new FormControl(''),
-    descripcion: new FormControl(''),
-    usuarios: new FormControl(''),
+    duracion: new FormControl(''),
   })
 
-  onSubmitTask(){
+  async onSubmitTask(){
     // Si el formulario es válido, guardar la tarea
     if(this.updateTask.valid){
-      this.saveTask(this.updateTask.value);
+      console.log(this.updateTask.value);
+      // Agregar el id de la tarea y el id del usuario
+      this.updateTask.value.id_tarea = this.task?.id_tarea;
+      this.updateTask.value.id_usuario = this.task?.id_usuario;
+      await this.saveTask(this.updateTask.value);
     } else {
       window.alert('Error al actualizar la tarea');
     }
@@ -55,6 +71,7 @@ export class ReactiveFormComponent {
 
   private async loadTask(){
     const task = await this.tasksService.getTaskById(this.id_tarea());
+    this.task = task;
     this.updateTask.patchValue(task);
   }
 

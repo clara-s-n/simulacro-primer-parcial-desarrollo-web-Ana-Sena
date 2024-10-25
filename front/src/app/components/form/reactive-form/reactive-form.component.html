@@ -4,31 +4,26 @@
   <div class="w-96">
     <div class="w-full max-w-xs" >
       <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" [formGroup]="updateTask" (ngSubmit)="this.onSubmitTask()">
-        <h1>
+        <h1 class="block text-gray-700 text-sm font-bold mb-2">
           Id tarea: {{this.task?.id_tarea}}, Creador: {{this.task?.creador}}
         </h1>
+        <h3 class="block text-gray-700 text-sm font-bold mb-2">Usuarios asignados:
+          @for (user of this.task?.usuarios; track user) {
+            @if (user !== '') {
+              {{ user }}
+            }
+          }</h3>
         <div class="mb-4">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="Nombre">
             Nombre
           </label>
-          <input formControlName="nombre" type="text" name="Nombre" placeholder="Nombre" id="Nombre"  required minlength="4" maxlength="50" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          <input formControlName="nombre" type="text" name="Nombre" placeholder="Nombre" id="Nombre"  required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
         </div>
         <div class="mb-6">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="Duracion">
             Duración
           </label>
-          <input formControlName="descripcion" type="number" name="Duracion" id="Duracion" placeholder="Duracion" required min="10" max="30" class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
-        </div>
-        <!-- Lista de usuarios asignados -->
-        <div class="mb-6">
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="Usuarios">
-            Usuarios
-          </label>
-          <select formControlName="usuarios" name="Usuarios" id="Usuarios" required class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
-            <option value="1">Usuario 1</option>
-            <option value="2">Usuario 2</option>
-            <option value="3">Usuario 3</option>
-          </select>
+          <input formControlName="duracion" type="number" name="Duracion" id="Duracion" placeholder="Duracion" required min="10" max="30" class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
         </div>
         <div class="flex items-center justify-between">
           <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" [disabled]="!updateTask.valid">
