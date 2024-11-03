@@ -1,7 +1,7 @@
 import { Type, Static } from "@sinclair/typebox";
 
 
-const FileSchema = Type.Object(
+export const FileSchema = Type.Object(
     {
         type: Type.Literal("file"),
         fieldname: Type.String(),
@@ -16,10 +16,10 @@ const FileSchema = Type.Object(
 
 export const MultiPartSchema = Type.Object(
     {
-        files: Type.Array(FileSchema),
-        fields: Type.Object({}),
+        image: FileSchema,
     },
     { additionalProperties: false }
 );
 
 export type MultiPartType = Static<typeof MultiPartSchema>;
+export type FileSchemaType = Static<typeof FileSchema>;

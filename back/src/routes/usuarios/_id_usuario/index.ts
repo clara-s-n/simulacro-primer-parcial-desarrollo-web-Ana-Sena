@@ -4,14 +4,14 @@ import {
   IdUsuarioSchema,
   IdUsuarioType,
   UsuarioSchema,
-  UsuarioType,
+  // UsuarioType,
 } from "../../../types/usuario.js";
 import * as usuarioService from "../../../services/usuarios.js";
-import { MultiPartSchema, MultiPartType } from "../../../types/multipart.js";
-import { Type } from "@sinclair/typebox";
-import { join } from "node:path";
-import { pipeline, Readable } from "node:stream";
-import { createWriteStream } from "node:fs";
+import {FileSchema, MultiPartSchema, MultiPartType} from "../../../types/multipart.js";
+//import { Type } from "@sinclair/typebox";
+import path, { join } from "node:path";
+// import { pipeline, Readable } from "node:stream";
+import { writeFileSync} from "node:fs";
 
 const usuariosRoutes: FastifyPluginAsync = async (
   fastify,
@@ -71,7 +71,7 @@ const usuariosRoutes: FastifyPluginAsync = async (
       return usuarioService.deleteById(id_usuario);
     },
   });
-
+/*
   fastify.put("/", {
     schema: {
       tags: ["usuarios"],
@@ -100,9 +100,9 @@ const usuariosRoutes: FastifyPluginAsync = async (
     },
     //onRequest: [fastify.verifyJWT, fastify.verifySelfOrAdmin],
     handler: async function (request, reply) {
+
       // Sacamos los datos del usuario a modificar, guardamos la imagen en 'public' y actualizamos el usuario
       const { id_usuario } = request.params as IdUsuarioType;
-      const { fields, files } = request.body as MultiPartType;
       const usuario = fields as UsuarioType;
       const imagen = files[0];
       let imageUrl = ''
@@ -122,51 +122,54 @@ const usuariosRoutes: FastifyPluginAsync = async (
 
       return usuarioService.updateById(usuario);
     },
-  });
+  });*/
 
   fastify.put("/image", {
     schema: {
-      tags: ["usuarios"],
-      summary: "Actualizar imagen de usuario.",
-      description:
-          " ## Implementar y validar \n " +
-          "- token \n " +
-          "- body. \n " +
-          "- params \n " +
-          "- response. \n " +
-          "- que el usuario que ejecuta es administrador o el mismo usuario a modificar.",
+      tags: ['usuarios'],
+      summary: 'Actualizar imagen de usuario.',
+      description: ' ## Implementar y validar \n - token \n - body. \n - params \n - response. \n - que el usuario que ejecuta es administrador o el mismo usuario a modificar.',
       body: MultiPartSchema,
       params: IdUsuarioSchema,
       response: {
         200: {
-          description: "Usuario actualizado.",
+          description: 'Usuario actualizado.',
           content: {
-            "application/json": {
+            'application/json': {
               schema: MultiPartSchema,
             },
           },
         },
       },
     },
-    //onRequest: [fastify.verifyJWT, fastify.verifySelfOrAdmin],
+    // onRequest: [fastify.verifyJWT, fastify.verifySelfOrAdmin],
     handler: async function (request, reply) {
       const {id_usuario} = request.params as IdUsuarioType;
-      const {files} = request.body as MultiPartType;
-      const imagen = files[0];
-      let imageUrl = ''
-      if (imagen) {
-        const path = join(__dirname, "..", "..", "..", "public", `${id_usuario}.webp`);
-        const fileStream = new Readable();
-        fileStream.push(imagen._buf);
-        await pipeline(
-            fileStream,
-            createWriteStream(path)
-        );
-        imageUrl = path;
+      const {image} = request.body as MultiPartType;
+
+      if (!image || !image._buf) {
+        throw new Error('No image file provided');
       }
-      return usuarioService.updateImageById(id_usuario, imageUrl);
-    },
+
+      const fileBuffer = image._buf as Buffer;
+
+      // Define upload directory
+      const uploadDir = path.join(process.cwd(), "public", "uploads");
+
+      // Process and save the image
+        const imageUrl = `${uploadDir}/${id_usuario}.webp`;
+        writeFileSync(imageUrl, fileBuffer);
+
+      // Update user record with new image URL
+      await usuarioService.updateImageById(id_usuario, imageUrl);
+
+      return {
+        imageUrl,
+        message: 'Image successfully updated'
+      };
+    }
   });
 };
 
-export default usuariosRoutes;
+
+      export default usuariosRoutes;
