@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { UserPhoto} from '../../interfaces/user';
+import {Router} from '@angular/router';
 
 @Component({
   standalone: true,
@@ -37,7 +38,8 @@ export class ImageComponent implements OnInit {
 
   constructor(
     private sanitizer: DomSanitizer,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) {
   }
 
@@ -72,6 +74,7 @@ export class ImageComponent implements OnInit {
   async saveImage() {
     if (this._imageBlob) {
       await this.uploadImage(this.user.id_usuario, this._imageBlob);
+      this.router.navigate(['/users']);
     }
   }
 
