@@ -7,10 +7,9 @@ import {
   // UsuarioType,
 } from "../../../types/usuario.js";
 import * as usuarioService from "../../../services/usuarios.js";
-import {FileSchema, MultiPartSchema, MultiPartType} from "../../../types/multipart.js";
+import { MultiPartSchema, MultiPartType} from "../../../types/multipart.js";
 //import { Type } from "@sinclair/typebox";
-import path, { join } from "node:path";
-// import { pipeline, Readable } from "node:stream";
+import path from "node:path";
 import { writeFileSync} from "node:fs";
 
 const usuariosRoutes: FastifyPluginAsync = async (
