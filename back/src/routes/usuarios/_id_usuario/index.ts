@@ -133,10 +133,10 @@ const usuariosRoutes: FastifyPluginAsync = async (
       response: {
         200: {
           description: 'Usuario actualizado.',
-          content: {
-            'application/json': {
-              schema: MultiPartSchema,
-            },
+            content: {
+                'application/json': {
+                schema: MultiPartSchema,
+            }
           },
         },
       },
@@ -160,12 +160,8 @@ const usuariosRoutes: FastifyPluginAsync = async (
         writeFileSync(imageUrl, fileBuffer);
 
       // Update user record with new image URL
-      await usuarioService.updateImageById(id_usuario, imageUrl);
-
-      return {
-        imageUrl,
-        message: 'Image successfully updated'
-      };
+      const user = await usuarioService.updateImageById(id_usuario, imageUrl);
+        reply.send(user);
     }
   });
 };

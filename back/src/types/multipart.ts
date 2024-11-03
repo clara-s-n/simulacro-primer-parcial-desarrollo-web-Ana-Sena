@@ -16,7 +16,7 @@ export const FileSchema = Type.Object(
 
 export const MultiPartSchema = Type.Object(
     {
-        image: FileSchema,
+        image: Type.Optional(FileSchema),
     },
     { additionalProperties: false }
 );
