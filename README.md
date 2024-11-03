@@ -11,4 +11,5 @@ observando en el lado derecho el resultado
 - Tocar el botón de Guardar 
 - Listo
 - Podrá verla en localhost/users, en su respectivo usuario
-Que tenga buen dia :D
+
+### Que tenga buen dia :D
