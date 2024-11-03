@@ -8,10 +8,10 @@
 </header>
 <a [routerLink]="['/tasks/2']"> Voy a la tarea 2</a>
 <!-- Mostramos todas las tareas, utilizando el componente task.component para cada una-->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-  @for (task of this.tasksList; track task) {
-    <app-task [task]="task"></app-task>
+<ion-content>
+  @for (task of this.tasksList(); track task) {
+  <app-task [task]="task"></app-task>
   }
-</div>
+</ion-content>
 
 <a [routerLink]="['/tasks/new']"> Crear nueva tarea</a>

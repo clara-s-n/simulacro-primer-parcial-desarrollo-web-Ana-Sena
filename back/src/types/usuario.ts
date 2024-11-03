@@ -29,6 +29,7 @@ export const UsuarioSchema = Type.Object(
     is_admin: Type.Boolean({
       description: "Indica si el usuario es administrador",
     }),
+    url_foto: Type.String({ description: "URL de la imagen" }),
   },
   {
     additionalProperties: false,
@@ -78,3 +79,4 @@ export const NuevoUsuarioSchema = Type.Object(
 
 export type UsuarioType = Static<typeof UsuarioSchema>;
 export type NuevoUsuarioType = Static<typeof NuevoUsuarioSchema>;
+export type UsuarioPostType = Partial<Static<typeof NuevoUsuarioSchema>>;

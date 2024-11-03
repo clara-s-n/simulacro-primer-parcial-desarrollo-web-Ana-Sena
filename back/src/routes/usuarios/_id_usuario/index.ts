@@ -7,6 +7,11 @@ import {
   UsuarioType,
 } from "../../../types/usuario.js";
 import * as usuarioService from "../../../services/usuarios.js";
+import { MultiPartSchema, MultiPartType } from "../../../types/multipart.js";
+import { Type } from "@sinclair/typebox";
+import { join } from "node:path";
+import { pipeline, Readable } from "node:stream";
+import { createWriteStream } from "node:fs";
 
 const usuariosRoutes: FastifyPluginAsync = async (
   fastify,
@@ -34,7 +39,7 @@ const usuariosRoutes: FastifyPluginAsync = async (
         },
       },
     },
-    onRequest: [fastify.verifyJWT, fastify.verifySelfOrAdmin],
+    //onRequest: [fastify.verifyJWT, fastify.verifySelfOrAdmin],
     handler: async function (request, reply) {
       const { id_usuario } = request.params as IdUsuarioType;
       return usuarioService.findById(id_usuario);
@@ -80,23 +85,86 @@ const usuariosRoutes: FastifyPluginAsync = async (
         "- response. \n " +
         "- que el usuario que ejecuta es administrador o el mismo usuario a modificar.",
 
-      body: UsuarioSchema,
+      body: Type.Intersect([MultiPartSchema, UsuarioSchema]),
       params: IdUsuarioSchema,
       response: {
         200: {
           description: "Usuario actualizado.",
           content: {
             "application/json": {
-              schema: UsuarioSchema,
+              schema: MultiPartSchema,
             },
           },
         },
       },
     },
-    onRequest: [fastify.verifyJWT, fastify.verifySelfOrAdmin],
+    //onRequest: [fastify.verifyJWT, fastify.verifySelfOrAdmin],
     handler: async function (request, reply) {
-      const usuario = request.body as UsuarioType;
+      // Sacamos los datos del usuario a modificar, guardamos la imagen en 'public' y actualizamos el usuario
+      const { id_usuario } = request.params as IdUsuarioType;
+      const { fields, files } = request.body as MultiPartType;
+      const usuario = fields as UsuarioType;
+      const imagen = files[0];
+      let imageUrl = ''
+      // Guardamos la imagen en 'public', le ponemos de nombre el id del usuario y .wbep y actualizamos el usuario
+      if (imagen) {
+        const path = join(__dirname, "..", "..", "..", "public", `${id_usuario}.webp`);
+        const fileStream = new Readable();
+        fileStream.push(imagen._buf);
+        await pipeline(
+          fileStream,
+          createWriteStream(path)
+        );
+        imageUrl = path;
+      }
+
+      usuario.url_foto = imageUrl;
+
       return usuarioService.updateById(usuario);
+    },
+  });
+
+  fastify.put("/image", {
+    schema: {
+      tags: ["usuarios"],
+      summary: "Actualizar imagen de usuario.",
+      description:
+          " ## Implementar y validar \n " +
+          "- token \n " +
+          "- body. \n " +
+          "- params \n " +
+          "- response. \n " +
+          "- que el usuario que ejecuta es administrador o el mismo usuario a modificar.",
+      body: MultiPartSchema,
+      params: IdUsuarioSchema,
+      response: {
+        200: {
+          description: "Usuario actualizado.",
+          content: {
+            "application/json": {
+              schema: MultiPartSchema,
+            },
+          },
+        },
+      },
+    },
+    //onRequest: [fastify.verifyJWT, fastify.verifySelfOrAdmin],
+    handler: async function (request, reply) {
+      const {id_usuario} = request.params as IdUsuarioType;
+      const {files} = request.body as MultiPartType;
+      const imagen = files[0];
+      let imageUrl = ''
+      if (imagen) {
+        const path = join(__dirname, "..", "..", "..", "public", `${id_usuario}.webp`);
+        const fileStream = new Readable();
+        fileStream.push(imagen._buf);
+        await pipeline(
+            fileStream,
+            createWriteStream(path)
+        );
+        imageUrl = path;
+      }
+      return usuarioService.updateImageById(id_usuario, imageUrl);
     },
   });
 };

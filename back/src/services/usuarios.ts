@@ -28,11 +28,11 @@ export const updateById = async (usuario: UsuarioType) => {
   const res = await db.query(
     `
     UPDATE public.usuarios  
-    SET email=$2, username=$3, is_admin=$4
+    SET email=$2, username=$3, is_admin=$4, url_foto=$5
     WHERE id_usuario=$1
     RETURNING *;
     `,
-    [usuario.id_usuario, usuario.email, usuario.username, usuario.is_admin]
+    [usuario.id_usuario, usuario.email, usuario.username, usuario.is_admin, usuario.url_foto]
   );
   if (res.rowCount === 0) throw new NotFoundError("");
   return res.rows[0];
@@ -48,3 +48,17 @@ export const create = async (nuevoUsuario: NuevoUsuarioType) => {
   );
   return res.rows[0];
 };
+
+export const updateImageById = async (id_usuario: number, url: string) => {
+    const res = await db.query(
+        `
+        UPDATE public.usuarios  
+        SET url_foto=$2
+        WHERE id_usuario=$1
+        RETURNING *;
+        `,
+        [id_usuario, url]
+    );
+    if (res.rowCount === 0) throw new NotFoundError("");
+    return res.rows[0];
+}

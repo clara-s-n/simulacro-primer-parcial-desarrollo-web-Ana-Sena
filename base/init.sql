@@ -8,10 +8,12 @@ CREATE TABLE usuarios (
     is_admin BOOLEAN NOT NULL DEFAULT false
 );
 
-INSERT INTO public.usuarios (username,email,contraseña,is_admin) VALUES('admin', 'admin@parcial.com', crypt('@Admin1', gen_salt('bf')), true);
-INSERT INTO public.usuarios (username,email,contraseña) VALUES('pepe', 'pepe@parcial.com', crypt('@Pepe1', gen_salt('bf')));
-INSERT INTO public.usuarios (username,email,contraseña) VALUES('carla', 'carla@parcial.com', crypt('@Carla1', gen_salt('bf')));
-INSERT INTO public.usuarios (username,email,contraseña) VALUES('flor', 'flor@parcial.com', crypt('@Flor1', gen_salt('bf')));
+ALTER TABLE usuarios ADD COLUMN url_foto TEXT;
+
+INSERT INTO public.usuarios (username,email,contraseña,is_admin, url_foto) VALUES('admin', 'admin@parcial.com', crypt('@Admin1', gen_salt('bf')), true, '');
+INSERT INTO public.usuarios (username,email,contraseña, url_foto) VALUES('pepe', 'pepe@parcial.com', crypt('@Pepe1', gen_salt('bf')), '');
+INSERT INTO public.usuarios (username,email,contraseña, url_foto) VALUES('carla', 'carla@parcial.com', crypt('@Carla1', gen_salt('bf')), '');
+INSERT INTO public.usuarios (username,email,contraseña, url_foto) VALUES('flor', 'flor@parcial.com', crypt('@Flor1', gen_salt('bf')), '');
 
 CREATE TABLE tareas (
     id_tarea SERIAL PRIMARY KEY,

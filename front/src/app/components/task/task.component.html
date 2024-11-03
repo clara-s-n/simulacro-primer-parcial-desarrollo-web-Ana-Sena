@@ -1,32 +1,30 @@
-@if (this.task()) {
-  <div class="max-w-sm rounded overflow-hidden shadow-lg bg-white">
-    <img class="w-full" src="/img.png" alt="Task logo">
-    <div class="px-6 py-4">
-      <div class="font-bold text-xl mb-2">Id: {{this.task()?.id_tarea}}, Nombre: {{ this.task()?.nombre }}</div>
-      <p class="text-gray-700 text-base">
-      <div class="card-body">
-        <p class="card-text">Duración: {{ this.task()?.duracion }}</p>
-        <p class="card-text">Creador: {{this.task()?.creador}}</p>
-        <p class="card-text">Usuarios asignados:
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Id: {{this.task()?.id_tarea}}</ion-card-title>
+    <ion-card-subtitle>Nombre: {{ this.task()?.nombre }}</ion-card-subtitle>
+  </ion-card-header>
+
+  <ion-card-content>
+    <ion-list>
+      <ion-item>
+        <ion-label>Creador</ion-label>
+        <ion-text>{{ this.task()?.creador }}</ion-text>
+      </ion-item>
+      <ion-item>
+        <ion-label>Duración</ion-label>
+        <ion-text>{{ this.task()?.duracion }}</ion-text>
+      </ion-item>
+      <ion-item>
+        <ion-label>Usuarios asignados</ion-label>
+        <ion-text>
           <!-- Si hay usuarios(distintos de una string vacía), ponemos un span con los nombres de usuario, sino no hacemos nada -->
           @for (user of this.task()?.usuarios; track user) {
-            @if (user !== '') {
-              <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{ user }}</span>
-            }
+          @if (user !== '') {
+          <span>{{ user }}</span>
           }
-        </p>
-      <button type="button" [routerLink]="['/tasks', this.task()?.id_tarea]" class="w-full text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 shadow-lg shadow-lime-500/50 dark:shadow-lg dark:shadow-lime-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Ver detalles</button>
-      </div>
-    </div>
-  </div>
-} @else {
-  <!-- Dejamos un espacio en el principio y ponemos la alerta dentro de un div -->
-  <div class="mt-4 max-w-md mx-auto">
-  <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-    <strong class="font-bold">We're very sorry, but we haven't found the task you are looking for</strong>
-    <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-    <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
-  </span>
-  </div>
-  </div>
-}
+          }
+        </ion-text>
+      </ion-item>
+    </ion-list>
+  </ion-card-content>
+</ion-card>

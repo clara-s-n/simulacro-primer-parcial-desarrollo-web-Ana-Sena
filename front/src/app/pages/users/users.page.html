@@ -1,0 +1,21 @@
+<ion-content>
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Users</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list>
+    <ion-item *ngFor="let user of userList">
+      <!-- Si tiene imagen la muestra, si no no muestra nada -->
+      <ion-avatar slot="start">
+        <img *ngIf="user.url_foto" [src]="" />
+      </ion-avatar>
+      <ion-label>
+        <h2>{{ user.username }}</h2>
+        <p>{{ user.email }}</p>
+      </ion-label>
+      <ion-button fill="clear" slot="end" [routerLink]="['/image', user.id_usuario]"> Agragar imagen</ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

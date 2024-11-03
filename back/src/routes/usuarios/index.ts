@@ -39,7 +39,7 @@ const usuariosRoutes: FastifyPluginAsync = async (
         },
       },
     },
-    onRequest: [fastify.verifyJWT, fastify.verifyAdmin],
+    //onRequest: [fastify.verifyJWT, fastify.verifyAdmin],
     handler: async function (request, reply) {
       return usuarioService.findAll();
     },

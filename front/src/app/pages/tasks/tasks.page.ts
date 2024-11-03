@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, signal} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {Task} from '../../interfaces/task';
 import {inject} from '@angular/core';
@@ -6,6 +6,7 @@ import {HttpClient} from '@angular/common/http';
 import {firstValueFrom} from 'rxjs';
 import {SearchComponent} from '../../components/search/search.component';
 import {TaskComponent} from '../../components/task/task.component';
+import {IonicModule} from '@ionic/angular';
 
 @Component({
   selector: 'app-tasks',
@@ -13,7 +14,8 @@ import {TaskComponent} from '../../components/task/task.component';
   imports: [
     RouterLink,
     SearchComponent,
-    TaskComponent
+    TaskComponent,
+    IonicModule
   ],
   templateUrl: './tasks.page.html',
   styleUrl: './tasks.page.css'
@@ -21,9 +23,10 @@ import {TaskComponent} from '../../components/task/task.component';
 export class TasksPage implements OnInit {
   async ngOnInit() {
     console.log('TasksPage initialized');
-    this.tasksList = await firstValueFrom(this.httpClient.get<Task[]>('back/tareas'));
-    console.log('tasksList:', this.tasksList);
+    const list = await firstValueFrom(this.httpClient.get<Task[]>('back/tareas'));
+    this.tasksList.set(list);
   }
-  tasksList: Task[] = []
+  public tasksList = signal<Task[]>([]);
+
   private httpClient = inject(HttpClient)
 }

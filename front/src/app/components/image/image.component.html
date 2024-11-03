@@ -1,0 +1,16 @@
+<input type="file" (change)="fileChangeEvent($event)" />
+
+<ion-grid>
+  <ion-row>
+    <ion-col>
+      <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="4 / 3"
+                     format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded($event)"
+                     (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()"></image-cropper>
+    </ion-col>
+    <ion-col>
+      <img [src]="croppedImage" />
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+<ion-button (click)="saveImage()">Upload</ion-button>
