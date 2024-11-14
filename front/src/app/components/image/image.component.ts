@@ -6,6 +6,7 @@ import { firstValueFrom } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { UserPhoto} from '../../interfaces/user';
 import {Router} from '@angular/router';
+import { Camera, CameraResultType } from '@capacitor/camera';
 
 @Component({
   standalone: true,
@@ -28,6 +29,8 @@ export class ImageComponent implements OnInit {
     console.log('user', this.user);
   }
 
+
+  image: Blob | null = null;
   imageChangedEvent: Event | null = null;
   croppedImage: SafeUrl = '';
   private _imageBlob?: Blob | null;
@@ -69,6 +72,22 @@ export class ImageComponent implements OnInit {
     return firstValueFrom(
       this.http.put(`http://localhost/back/usuarios/${id_usuario}/image`, formData)
     );
+  }
+
+  public async takePhoto() {
+    const foto = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.Uri,
+    });
+
+    if(foto.webPath){
+      this.image = await fetch(foto.webPath).then(r => r.blob());
+      if(this.image){
+        await this.uploadImage(this.user.id_usuario, this.image);
+        this.router.navigate(['/users']);
+      }
+    }
   }
 
   async saveImage() {

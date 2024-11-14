@@ -8,8 +8,8 @@
   <ion-list>
     <ion-item *ngFor="let user of userList">
       <!-- Si tiene imagen la muestra, si no no muestra nada -->
-      <ion-avatar slot="start">
-        <img *ngIf="user.url_foto" [src]="user.url_foto" />
+      <ion-avatar *ngIf="user.url_foto" slot="start">
+        <img [src]="user.url_foto" />
       </ion-avatar>
       <ion-label>
         <h2>{{ user.username }}</h2>

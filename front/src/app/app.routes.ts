@@ -8,6 +8,7 @@ import { NewTaskPage } from './pages/tasks/components/new-task/new-task.page';
 import { EditTaskPage } from './pages/tasks/components/task-id/edit-task/edit-task.page';
 import { ImageComponent } from './components/image/image.component';
 import { UsersPage } from './pages/users/users.page';
+import { FotoPage } from './pages/foto/foto.page';
 
 let TasksIdPage;
 export const routes: Routes = [
@@ -48,5 +49,9 @@ export const routes: Routes = [
   {
     path: 'users',
     component: UsersPage
+  },
+  {
+    path: 'foto',
+    component: FotoPage
   }
 ];
